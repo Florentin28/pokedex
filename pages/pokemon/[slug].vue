@@ -4,12 +4,15 @@ const query = gql`
     pokemon(where: { slug: $slug }) {
       id
       nom
+      poids
+      taille
       slug
       description
       createdAt
       publishedAt
       updatedAt
       stage
+      pv
       image {
         url(
           transformation: {
@@ -65,6 +68,9 @@ pokemon.value = data.value.pokemon;
     <NuxtImg class="" :src="pokemon.image.url" :alt="pokemon.nom" />
     <h2 class="text-3xl text-center">{{ pokemon.nom }}</h2>
     <p class="text-justify text-red-950">{{ pokemon.description }}</p>
+    <p>Points de vie : {{ pokemon.pv }}</p>
+    <p>Poids : {{ pokemon.poids }} kg</p>
+    <p>Taille : {{ pokemon.taille }} cm</p>
   </div>
   <div v-else>
     <li>Loading...</li>
