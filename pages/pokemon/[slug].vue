@@ -13,6 +13,23 @@ const query = gql`
       updatedAt
       stage
       pv
+      typePokemon {
+        type
+        logoType {
+          url
+        }
+      }
+      attaque1 {
+        nom
+        description
+        degats
+      }
+      attaque2 {
+        nom
+        description
+        degats
+      }
+
       image {
         url(
           transformation: {
@@ -64,14 +81,44 @@ pokemon.value = data.value.pokemon;
     <Meta name="twitter:image" :content="pokemon.image.url" />
   </Head>
 
-  <div v-if="pokemon" class="max-w-lg space-y-8 mx-auto">
-    <NuxtImg class="" :src="pokemon.image.url" :alt="pokemon.nom" />
-    <h2 class="text-3xl text-center">{{ pokemon.nom }}</h2>
-    <p class="text-justify text-red-950">{{ pokemon.description }}</p>
-    <p>Points de vie : {{ pokemon.pv }}</p>
-    <p>Poids : {{ pokemon.poids }} kg</p>
-    <p>Taille : {{ pokemon.taille }} cm</p>
+  <div
+    v-if="pokemon"
+    class="max-w-md mx-auto bg-blue-500 rounded-md overflow-hidden shadow-md border-4 border-yellow-400 h-full"
+  >
+    <!-- PV et Type sur la même ligne -->
+    <div class="p-4 flex justify-between items-start">
+      <!-- Nom du Pokémon -->
+      <h2 class="text-2xl font-bold">{{ pokemon.nom }}</h2>
+
+      <!-- PV et Type -->
+      <div class="flex items-center">
+        <div class="text-gray-600 mr-4">PV : {{ pokemon.pv }}</div>
+        <NuxtImg
+          v-if="pokemon.typePokemon && pokemon.typePokemon.logoType"
+          :src="pokemon.typePokemon.logoType.url"
+          :alt="pokemon.typePokemon.type"
+          class="w-12 h-12 rounded-full"
+        />
+        <p v-else class="ml-2">Non défini</p>
+      </div>
+    </div>
+
+    <!-- Image du Pokémon -->
+    <NuxtImg
+      class="w-full h-full object-contain"
+      :src="pokemon.image.url"
+      :alt="pokemon.nom"
+    />
+
+    <!-- Attaques -->
+    <div class="p-4">
+      <ul class="list-disc list-inside">
+        <li>{{ pokemon.attaque1.nom }}</li>
+        <li>{{ pokemon.attaque2.nom }}</li>
+      </ul>
+    </div>
   </div>
+
   <div v-else>
     <li>Loading...</li>
   </div>
