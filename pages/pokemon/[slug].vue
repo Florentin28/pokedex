@@ -49,6 +49,32 @@ const { data } = await useAsyncQuery(query, {
 });
 console.log(data.value);
 pokemon.value = data.value.pokemon;
+
+const getTypeBackgroundColor = (type) => {
+  switch (type) {
+    case "Poison":
+      return "#a1a1eb"; // violet
+    case "Eau":
+      return "#B3E0FF"; // Bleu pastel
+    case "Plante":
+      return "#B3FFB3"; // Vert pastel
+    case "Vol":
+      return "#E0E0E0"; // Blanc pastel
+    case "Electrique":
+      return "#FFF9B3"; // Jaune pastel
+    case "Roche":
+      return "#D2B48C"; // Brun pastel
+    default:
+      return "#FFFFFF"; // Gris pastel par défaut si le type n'est pas géré
+  }
+};
+
+// Utilisez la fonction getTypeBackgroundColor pour définir la couleur dynamiquement
+const backgroundColor = getTypeBackgroundColor(pokemon.value.typePokemon.type);
+
+const fontStyle = {
+  fontFamily: "Pixelify Sans, sans-serif",
+};
 </script>
 
 <template>
@@ -79,11 +105,19 @@ pokemon.value = data.value.pokemon;
       :content="`Découvrez des détails sur ${pokemon.nom}: ${pokemon.description}`"
     />
     <Meta name="twitter:image" :content="pokemon.image.url" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&display=swap"
+    />
   </Head>
 
   <div
     v-if="pokemon"
-    class="max-w-md mx-auto bg-blue-500 rounded-md overflow-hidden shadow-md border-4 border-yellow-400 h-full"
+    class="max-w-md mx-auto rounded-md overflow-hidden shadow-md border-4 border-yellow-400 h-full"
+    :style="{
+      'background-color': backgroundColor,
+      ...fontStyle, // Ajoutez le style de police ici
+    }"
   >
     <!-- PV et Type sur la même ligne -->
     <div class="p-4 flex justify-between items-start">
@@ -103,18 +137,26 @@ pokemon.value = data.value.pokemon;
       </div>
     </div>
 
-    <!-- Image du Pokémon -->
-    <NuxtImg
-      class="w-full h-full object-contain"
-      :src="pokemon.image.url"
-      :alt="pokemon.nom"
-    />
-
-    <!-- Attaques -->
+    <!-- Image du Pokémon avec un espace autour -->
     <div class="p-4">
-      <ul class="list-disc list-inside">
-        <li>{{ pokemon.attaque1.nom }}</li>
-        <li>{{ pokemon.attaque2.nom }}</li>
+      <NuxtImg
+        class="w-full h-auto object-cover rounded-md"
+        :src="pokemon.image.url"
+        :alt="pokemon.nom"
+      />
+    </div>
+
+    <!-- Attaques avec descriptions et styles différents -->
+    <div class="p-4">
+      <ul class="list-none list-inside">
+        <li>
+          <p class="font-bold text-lg">{{ pokemon.attaque1.nom }}</p>
+          <p class="text-sm">{{ pokemon.attaque1.description }}</p>
+        </li>
+        <li class="mt-4">
+          <p class="font-bold text-lg">{{ pokemon.attaque2.nom }}</p>
+          <p class="text-sm">{{ pokemon.attaque2.description }}</p>
+        </li>
       </ul>
     </div>
   </div>
