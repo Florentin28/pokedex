@@ -13,6 +13,12 @@ const query = gql`
       updatedAt
       stage
       pv
+      decor {
+        nom
+        image {
+          url
+        }
+      }
       typePokemon {
         type
         logoType {
@@ -78,55 +84,55 @@ const fontStyle = {
 </script>
 
 <template>
-  <Head v-if="pokemon">
-    <Title>{{ pokemon.nom }} - Détails du Pokémon</Title>
-    <Meta
-      name="description"
-      :content="`Découvrez des détails sur ${pokemon.nom}: ${pokemon.description}`"
-    />
-    <Meta
-      property="og:title"
-      :content="`${pokemon.nom} - Détails du Pokémon`"
-    />
-    <Meta
-      property="og:description"
-      :content="`Découvrez des détails sur ${pokemon.nom}: ${pokemon.description}`"
-    />
-    <Meta property="og:image" :content="pokemon.image.url" />
-    <Meta property="og:type" content="website" />
-    <Meta property="og:locale" content="fr_FR" />
-    <Meta name="twitter:card" content="summary_large_image" />
-    <Meta
-      name="twitter:title"
-      :content="`${pokemon.nom} - Détails du Pokémon`"
-    />
-    <Meta
-      name="twitter:description"
-      :content="`Découvrez des détails sur ${pokemon.nom}: ${pokemon.description}`"
-    />
-    <Meta name="twitter:image" :content="pokemon.image.url" />
-    <link
-      rel="stylesheet"
-      href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&display=swap"
-    />
-  </Head>
-
   <div
     v-if="pokemon"
     class="max-w-md mx-auto rounded-md overflow-hidden shadow-md border-4 border-yellow-400 h-full"
     :style="{
       'background-color': backgroundColor,
-      ...fontStyle, // Ajoutez le style de police ici
     }"
   >
-    <!-- PV et Type sur la même ligne -->
-    <div class="p-4 flex justify-between items-start">
-      <!-- Nom du Pokémon -->
-      <h2 class="text-2xl font-bold">{{ pokemon.nom }}</h2>
+    <!-- Metadata for SEO and social media -->
+    <Head v-if="pokemon">
+      <Title>{{ pokemon.nom }} - Détails du Pokémon</Title>
+      <Meta
+        name="description"
+        :content="`Découvrez des détails sur ${pokemon.nom}: ${pokemon.description}`"
+      />
+      <Meta
+        property="og:title"
+        :content="`${pokemon.nom} - Détails du Pokémon`"
+      />
+      <Meta
+        property="og:description"
+        :content="`Découvrez des détails sur ${pokemon.nom}: ${pokemon.description}`"
+      />
+      <Meta property="og:image" :content="pokemon.image.url" />
+      <Meta property="og:type" content="website" />
+      <Meta property="og:locale" content="fr_FR" />
+      <Meta name="twitter:card" content="summary_large_image" />
+      <Meta
+        name="twitter:title"
+        :content="`${pokemon.nom} - Détails du Pokémon`"
+      />
+      <Meta
+        name="twitter:description"
+        :content="`Découvrez des détails sur ${pokemon.nom}: ${pokemon.description}`"
+      />
+      <Meta name="twitter:image" :content="pokemon.image.url" />
+      <link
+        rel="stylesheet"
+        href="https://fonts.googleapis.com/css2?family=Pixelify+Sans:wght@400;500;700&display=swap"
+      />
+    </Head>
 
-      <!-- PV et Type -->
+    <!-- PV et Type on the same line -->
+    <div class="p-4 flex justify-between items-start">
+      <h2 class="text-2xl font-bold" :style="fontStyle">{{ pokemon.nom }}</h2>
+
       <div class="flex items-center">
-        <div class="text-gray-600 mr-4">PV : {{ pokemon.pv }}</div>
+        <div class="text-gray-600 mr-4" :style="fontStyle">
+          PV: {{ pokemon.pv }}
+        </div>
         <NuxtImg
           v-if="pokemon.typePokemon && pokemon.typePokemon.logoType"
           :src="pokemon.typePokemon.logoType.url"
@@ -147,7 +153,7 @@ const fontStyle = {
     </div>
 
     <!-- Attaques avec descriptions et styles différents -->
-    <div class="p-4">
+    <div class="p-4" :style="fontStyle">
       <ul class="list-none list-inside">
         <li>
           <p class="font-bold text-lg">{{ pokemon.attaque1.nom }}</p>
