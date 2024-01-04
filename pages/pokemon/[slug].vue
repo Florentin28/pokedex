@@ -81,14 +81,48 @@ const backgroundColor = getTypeBackgroundColor(pokemon.value.typePokemon.type);
 const fontStyle = {
   fontFamily: "Pixelify Sans, sans-serif",
 };
+
+// Ajoutez cette ligne pour déclarer une variable de données
+const showDetails = ref(false);
+
+// Modifiez cette fonction pour basculer l'état de showDetails et mettre à jour le texte
+const toggleDetails = () => {
+  showDetails.value = !showDetails.value;
+  if (showDetails.value) {
+    updateInfoText(); // Ajoutez cet appel pour mettre à jour le texte
+  }
+};
+
+// Ajoutez une nouvelle donnée pour stocker le texte de la zone d'information
+const infoText = ref("test jidhjkfk");
+console.log("infoText initial :", infoText.value);
+
+// Ajoutez une méthode pour mettre à jour le contenu de la zone d'information
+const updateInfoText = () => {
+  // Mettez à jour le texte en fonction de vos besoins
+  infoText.value = pokemon.value.description;
+  console.log("updateInfoText appelée, infoText mis à jour :", infoText.value);
+};
 </script>
 
 <template>
+  <!-- Zone de texte pour les informations -->
+  <div
+    v-if="showDetails"
+    class="absolute top-1/2 transform -translate-y-1/2 w-72 p-6 bg-white border-l-4 border-yellow-400 shadow-md transition duration-150 ease-in-out"
+    :style="{ left: '50%', 'max-height': '80vh', 'overflow-y': 'auto' }"
+  >
+    <div class="text-justify">
+      <p>{{ infoText }}</p>
+    </div>
+  </div>
   <div
     v-if="pokemon"
-    class="max-w-md mx-auto rounded-md overflow-hidden shadow-md border-4 border-yellow-400 h-full"
+    class="relative max-w-md mx-auto rounded-md overflow-hidden shadow-md border-4 border-yellow-400 h-full"
     :style="{
       'background-color': backgroundColor,
+      transform: showDetails ? 'translateX(-80%)' : 'translateX(0)',
+      transition: 'transform 1.5s ease-in-out',
     }"
   >
     <!-- Metadata for SEO and social media -->
@@ -165,6 +199,13 @@ const fontStyle = {
         </li>
       </ul>
     </div>
+    <!-- Bouton "informations" -->
+    <button
+      @click="toggleDetails"
+      class="p-2 bg-blue-500 text-white rounded-md hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue flex items-center ml-32 mb-4"
+    >
+      {{ showDetails ? "Masquer informations" : "Afficher informations" }}
+    </button>
   </div>
 
   <div v-else>
