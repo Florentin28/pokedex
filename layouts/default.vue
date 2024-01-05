@@ -1,6 +1,6 @@
 <template>
   <Head>
-    <Title>Pokedex IA</Title>
+    <Title>Pokedex Florentin Muraille</Title>
     <Meta
       name="description"
       content="Explorez un Pokedex complet et interactif propulsé par IA. Découvrez des Pokémon uniques avec des informations détaillées et des images générées par intelligence artificielle."
@@ -37,7 +37,7 @@
   >
     <nav class="container mx-auto px-3 h-24 flex items-center mb-10">
       <NuxtLink to="/">
-        <h1 class="text-5xl font-serif">Pokedex</h1>
+        <h1 class="text-5xl font-serif text-stroke-white">Pokedex</h1>
       </NuxtLink>
     </nav>
     <div class="container mx-auto px-3">
@@ -45,3 +45,10 @@
     </div>
   </div>
 </template>
+
+<style>
+.text-stroke-white {
+  color: white;
+  -webkit-text-stroke: 1.5px black;
+}
+</style>

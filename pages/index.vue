@@ -33,9 +33,18 @@ pokemons.value = data.value.pokemons;
     class="grid gap-8 grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-6"
   >
     <li v-for="pokemon in pokemons" :key="pokemon.id">
-      <NuxtLink :to="`/pokemon/${pokemon.slug}`">
-        <NuxtImg :src="pokemon.image.url" :alt="pokemon.nom" />
-        <h2 class="text-3xl text-center">{{ pokemon.nom }}</h2>
+      <NuxtLink
+        :to="`/pokemon/${pokemon.slug}`"
+        class="relative inline-block overflow-hidden rounded-md"
+      >
+        <NuxtImg
+          :src="pokemon.image.url"
+          :alt="pokemon.nom"
+          class="w-full h-auto transition-transform transform hover:brightness-125 hover:scale-105 rounded-md"
+        />
+        <h2 class="text-3xl text-center mt-2 text-stroke-white font-bold">
+          {{ pokemon.nom }}
+        </h2>
       </NuxtLink>
     </li>
   </ul>
@@ -43,3 +52,10 @@ pokemons.value = data.value.pokemons;
     <li>Loading...</li>
   </ul>
 </template>
+
+<style>
+.text-stroke-white {
+  color: white;
+  -webkit-text-stroke: 1.5px black;
+}
+</style>

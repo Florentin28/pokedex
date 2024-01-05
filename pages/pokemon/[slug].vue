@@ -58,13 +58,13 @@ const getTypeBackgroundColor = (type) => {
     case "Eau":
       return "#B3E0FF"; // Bleu pastel
     case "Plante":
-      return "#B3FFB3"; // Vert pastel
+      return "#21ba9c"; 
     case "Vol":
       return "#E0E0E0"; // Blanc pastel
-    case "Electrique":
-      return "#FFF9B3"; // Jaune pastel
-    case "Roche":
-      return "#D2B48C"; // Brun pastel
+    case "Électrique":
+      return "#fdfb73"; // Jaune pastel
+    case "Combat":
+      return "#ff2c3d"; // Brun pastel
     default:
       return "#FFFFFF"; // Gris pastel par défaut si le type n'est pas géré
   }
@@ -83,10 +83,19 @@ let isFirstToggle = true; // Ajoutez une variable pour suivre la première trans
 
 const showLargeImage = ref(false);
 
+const showLargeLogo = ref(false);
+
+
 // Ajoutez une méthode pour basculer l'affichage de l'image en grand
 const toggleLargeImage = () => {
   showLargeImage.value = !showLargeImage.value;
 };
+
+
+const toggleLargeLogo = () => {
+  showLargeLogo.value = !showLargeLogo.value;
+};
+
 
 // Fonction toggleDetails mise à jour
 const toggleDetails = () => {
@@ -137,6 +146,8 @@ const beforeEnter = (el) => {
         left: '50%',
         'max-height': '100vh',
         'overflow-y': 'auto',
+                'background-color': backgroundColor, // Ajoutez cette ligne pour définir la couleur de fond
+
 
         transition: 'opacity 1s, transform 1s ease-in-out',
       }"
@@ -144,6 +155,8 @@ const beforeEnter = (el) => {
       <div class="text-justify">
         <h3 class="text-lg font-bold mb-2">Description</h3>
         <p :class="{ tada: showDetails }">{{ infoText }}</p>
+          <p class="mb-10"></p>
+
        
         <p class="mb-2">
           <strong class="font-bold text-lg">
@@ -157,6 +170,15 @@ const beforeEnter = (el) => {
           </strong>
         </p>
         <p class="text-sm">{{ pokemon.attaque2.description }}</p>
+          <!-- Ajoutez le champ "Type" avec l'image du logo du type -->
+<p class="mb-2"><strong>Type :</strong></p>
+<NuxtImg
+  v-if="pokemon.typePokemon && pokemon.typePokemon.logoType"
+  :src="pokemon.typePokemon.logoType.url"
+  :alt="pokemon.typePokemon.type"
+  class="w-12 h-12 rounded-full cursor-pointer transition-transform transform hover:brightness-125"
+  @click="toggleLargeLogo"
+/>
          <p class="mt-4"><strong>Taille :</strong> {{ pokemon.taille }} cm</p>
         <p class="mb-2">
         <p><strong>Poids :</strong> {{ pokemon.poids }} kg</p>
@@ -263,14 +285,10 @@ const beforeEnter = (el) => {
   <div
     v-if="showLargeImage"
     class="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-80 flex items-center justify-center"
-  >
-    <!-- Bouton pour revenir en arrière -->
-    <button
       @click="toggleLargeImage"
-      class="absolute top-20 left-64 px-6 py-2.5 text-white bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-yellow-300 rounded-lg text-sm"
-    >
-      Retour
-    </button>
+
+  >
+   
     <div class="max-w-full max-h-full overflow-hidden">
       <NuxtImg
         class="w-full h-auto object-cover rounded-md cursor-pointer transition-transform transform hover:scale-120 border-4 border-yellow-400"
@@ -279,6 +297,21 @@ const beforeEnter = (el) => {
       />
     </div>
   </div>
+
+  <!-- Affiche l'image en grand si showLargeLogo est true -->
+<div
+  v-if="showLargeLogo"
+  class="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-80 flex items-center justify-center"
+  @click="toggleLargeLogo"
+>
+  <div class="max-w-full max-h-full overflow-hidden">
+    <NuxtImg
+      class="w-full h-auto object-cover rounded-md cursor-pointer transition-transform transform hover:scale-120 border-4 border-yellow-400"
+      :src="pokemon.typePokemon.logoType.url"
+      :alt="pokemon.typePokemon.type"
+    />
+  </div>
+</div>
 
   <div v-else>
     <li>Loading...</li>
