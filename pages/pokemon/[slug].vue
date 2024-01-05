@@ -132,25 +132,42 @@ const beforeEnter = (el) => {
   >
     <div
       v-if="showDetails"
-      class="description absolute top-1/2 transform -translate-y-1/2 w-96 p-6 bg-white border-4 border-yellow-400 rounded-md shadow-md appear-animation fade-enter fade-enter-to"
+      class="card-container description absolute top-1/2 transform -translate-y-1/2 w-96 p-6 bg-white border-4 border-yellow-400 rounded-md shadow-md appear-animation fade-enter fade-enter-to"
       :style="{
         left: '50%',
-        'max-height': '80vh',
+        'max-height': '100vh',
         'overflow-y': 'auto',
+
+        transition: 'opacity 1s, transform 1s ease-in-out',
       }"
     >
       <div class="text-justify">
         <h3 class="text-lg font-bold mb-2">Description</h3>
         <p :class="{ tada: showDetails }">{{ infoText }}</p>
-        <p class="mt-4"><strong>Taille :</strong> {{ pokemon.taille }} cm</p>
+       
+        <p class="mb-2">
+          <strong class="font-bold text-lg">
+            {{ pokemon.attaque1.nom }} - {{ pokemon.attaque1.degats }}
+          </strong>
+        </p>
+        <p class="text-sm mb-4">{{ pokemon.attaque1.description }}</p>
+        <p class="mb-2">
+          <strong class="font-bold text-lg">
+            {{ pokemon.attaque2.nom }} - {{ pokemon.attaque2.degats }}
+          </strong>
+        </p>
+        <p class="text-sm">{{ pokemon.attaque2.description }}</p>
+         <p class="mt-4"><strong>Taille :</strong> {{ pokemon.taille }} cm</p>
+        <p class="mb-2">
         <p><strong>Poids :</strong> {{ pokemon.poids }} kg</p>
+        </p>
       </div>
     </div>
   </transition>
 
   <div
     v-if="pokemon"
-    class="relative max-w-md mx-auto rounded-md overflow-hidden shadow-md border-4 border-yellow-400 h-full"
+    class="card-container relative max-w-md mx-auto rounded-md overflow-hidden shadow-md border-4 border-yellow-400 h-full"
     :style="{
       'background-color': backgroundColor,
       transform: showDetails ? 'translateX(-80%)' : 'translateX(0)',
@@ -212,7 +229,7 @@ const beforeEnter = (el) => {
     <!-- Image du Pokémon avec un espace autour -->
     <div class="p-4" @click="toggleLargeImage">
       <NuxtImg
-        class="w-full h-auto object-cover rounded-md cursor-pointer"
+        class="w-full h-auto object-cover rounded-md cursor-pointer transition-transform transform hover:brightness-125 appear-animation"
         :src="pokemon.image.url"
         :alt="pokemon.nom"
       />
@@ -225,13 +242,11 @@ const beforeEnter = (el) => {
           <p class="font-bold text-lg">
             {{ pokemon.attaque1.nom }} - {{ pokemon.attaque1.degats }}
           </p>
-          <p class="text-sm">{{ pokemon.attaque1.description }}</p>
         </li>
         <li class="mt-4">
           <p class="font-bold text-lg">
             {{ pokemon.attaque2.nom }} - {{ pokemon.attaque2.degats }}
           </p>
-          <p class="text-sm">{{ pokemon.attaque2.description }}</p>
         </li>
       </ul>
     </div>
@@ -252,16 +267,17 @@ const beforeEnter = (el) => {
     <!-- Bouton pour revenir en arrière -->
     <button
       @click="toggleLargeImage"
-      class="absolute top-20 left-64 p-8 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue"
+      class="absolute top-20 left-64 px-6 py-2.5 text-white bg-gradient-to-r from-yellow-400 via-yellow-500 to-yellow-600 hover:bg-gradient-to-br focus:ring-4 focus:outline-none focus:ring-yellow-300 rounded-lg text-sm"
     >
       Retour
     </button>
-    <NuxtImg
-      :class="{ 'opacity-0': !showLargeImage, 'opacity-100': showLargeImage }"
-      class="max-w-full max-h-full transition-opacity duration-500"
-      :src="pokemon.image.url"
-      :alt="pokemon.nom"
-    />
+    <div class="max-w-full max-h-full overflow-hidden">
+      <NuxtImg
+        class="w-full h-auto object-cover rounded-md cursor-pointer transition-transform transform hover:scale-120 border-4 border-yellow-400"
+        :src="pokemon.image.url"
+        :alt="pokemon.nom"
+      />
+    </div>
   </div>
 
   <div v-else>
@@ -273,7 +289,7 @@ const beforeEnter = (el) => {
 /* Cette partie gère l'état initial de l'élément (opacity: 0) et la transition */
 .fade-enter-active,
 .fade-leave-active {
-  transition: opacity 1s ease-in-out;
+  transition: opacity 0.5s ease-in-out, transform 1s ease-in-out;
 }
 
 /* Cette partie gère l'opacité active pendant l'apparition (entrée) */
@@ -284,5 +300,10 @@ const beforeEnter = (el) => {
 /* Cette partie gère l'opacité active pendant la sortie (quand l'élément est supprimé) */
 .fade-leave-active {
   opacity: 0;
+}
+.card-container {
+  height: 100%;
+  top: 50%;
+  transform: translateY(-42%);
 }
 </style>

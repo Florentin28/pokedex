@@ -2,7 +2,10 @@
 export default {
   content: [],
   theme: {
-    extend: {},
+    extend: {
+            scale: ['hover'],
+
+    },
     animation: {
       'tada': 'tada 1s ease-in-out',
     },
