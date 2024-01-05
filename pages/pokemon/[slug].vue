@@ -81,6 +81,13 @@ const fontStyle = {
 const showDetails = ref(false);
 let isFirstToggle = true; // Ajoutez une variable pour suivre la première transition
 
+const showLargeImage = ref(false);
+
+// Ajoutez une méthode pour basculer l'affichage de l'image en grand
+const toggleLargeImage = () => {
+  showLargeImage.value = !showLargeImage.value;
+};
+
 // Fonction toggleDetails mise à jour
 const toggleDetails = () => {
   showDetails.value = !showDetails.value;
@@ -203,9 +210,9 @@ const beforeEnter = (el) => {
     </div>
 
     <!-- Image du Pokémon avec un espace autour -->
-    <div class="p-4">
+    <div class="p-4" @click="toggleLargeImage">
       <NuxtImg
-        class="w-full h-auto object-cover rounded-md"
+        class="w-full h-auto object-cover rounded-md cursor-pointer"
         :src="pokemon.image.url"
         :alt="pokemon.nom"
       />
@@ -215,11 +222,15 @@ const beforeEnter = (el) => {
     <div class="p-4" :style="fontStyle">
       <ul class="list-none list-inside">
         <li>
-          <p class="font-bold text-lg">{{ pokemon.attaque1.nom }}</p>
+          <p class="font-bold text-lg">
+            {{ pokemon.attaque1.nom }} - {{ pokemon.attaque1.degats }}
+          </p>
           <p class="text-sm">{{ pokemon.attaque1.description }}</p>
         </li>
         <li class="mt-4">
-          <p class="font-bold text-lg">{{ pokemon.attaque2.nom }}</p>
+          <p class="font-bold text-lg">
+            {{ pokemon.attaque2.nom }} - {{ pokemon.attaque2.degats }}
+          </p>
           <p class="text-sm">{{ pokemon.attaque2.description }}</p>
         </li>
       </ul>
@@ -231,6 +242,26 @@ const beforeEnter = (el) => {
     >
       {{ showDetails ? "Masquer informations" : "Afficher informations" }}
     </button>
+  </div>
+
+  <!-- Affiche l'image en grand si showLargeImage est true -->
+  <div
+    v-if="showLargeImage"
+    class="fixed top-0 left-0 w-screen h-screen bg-black bg-opacity-80 flex items-center justify-center"
+  >
+    <!-- Bouton pour revenir en arrière -->
+    <button
+      @click="toggleLargeImage"
+      class="absolute top-20 left-64 p-8 bg-blue-500 text-white rounded-full hover:bg-blue-600 focus:outline-none focus:ring focus:border-blue"
+    >
+      Retour
+    </button>
+    <NuxtImg
+      :class="{ 'opacity-0': !showLargeImage, 'opacity-100': showLargeImage }"
+      class="max-w-full max-h-full transition-opacity duration-500"
+      :src="pokemon.image.url"
+      :alt="pokemon.nom"
+    />
   </div>
 
   <div v-else>
