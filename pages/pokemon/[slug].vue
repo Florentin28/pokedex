@@ -13,12 +13,7 @@ const query = gql`
       updatedAt
       stage
       pv
-      decor {
-        nom
-        image {
-          url
-        }
-      }
+
       typePokemon {
         type
         logoType {
@@ -84,12 +79,22 @@ const fontStyle = {
 
 // Ajoutez cette ligne pour déclarer une variable de données
 const showDetails = ref(false);
+let isFirstToggle = true; // Ajoutez une variable pour suivre la première transition
 
-// Modifiez cette fonction pour basculer l'état de showDetails et mettre à jour le texte
+// Fonction toggleDetails mise à jour
 const toggleDetails = () => {
   showDetails.value = !showDetails.value;
-  if (showDetails.value) {
-    updateInfoText(); // Ajoutez cet appel pour mettre à jour le texte
+
+  if (showDetails.value && isFirstToggle) {
+    updateInfoText();
+    document
+      .querySelector(".description")
+      .classList.add("description-enter-active");
+    isFirstToggle = false;
+  } else {
+    document
+      .querySelector(".description")
+      .classList.remove("description-enter-active");
   }
 };
 
@@ -103,19 +108,39 @@ const updateInfoText = () => {
   infoText.value = pokemon.value.description;
   console.log("updateInfoText appelée, infoText mis à jour :", infoText.value);
 };
+
+// Ajoutez cette ligne dans votre script pour gérer la classe fade-enter
+const beforeEnter = (el) => {
+  el.classList.add("fade-enter");
+};
 </script>
 
 <template>
-  <!-- Zone de texte pour les informations -->
-  <div
-    v-if="showDetails"
-    class="absolute top-1/2 transform -translate-y-1/2 w-72 p-6 bg-white border-l-4 border-yellow-400 shadow-md transition duration-150 ease-in-out"
-    :style="{ left: '50%', 'max-height': '80vh', 'overflow-y': 'auto' }"
+  <transition
+    name="fade"
+    mode="out-in"
+    :before-enter="beforeEnter"
+    :enter="enter"
+    :leave="leave"
   >
-    <div class="text-justify">
-      <p>{{ infoText }}</p>
+    <div
+      v-if="showDetails"
+      class="description absolute top-1/2 transform -translate-y-1/2 w-96 p-6 bg-white border-4 border-yellow-400 rounded-md shadow-md appear-animation fade-enter fade-enter-to"
+      :style="{
+        left: '50%',
+        'max-height': '80vh',
+        'overflow-y': 'auto',
+      }"
+    >
+      <div class="text-justify">
+        <h3 class="text-lg font-bold mb-2">Description</h3>
+        <p :class="{ tada: showDetails }">{{ infoText }}</p>
+        <p class="mt-4"><strong>Taille :</strong> {{ pokemon.taille }} cm</p>
+        <p><strong>Poids :</strong> {{ pokemon.poids }} kg</p>
+      </div>
     </div>
-  </div>
+  </transition>
+
   <div
     v-if="pokemon"
     class="relative max-w-md mx-auto rounded-md overflow-hidden shadow-md border-4 border-yellow-400 h-full"
@@ -212,3 +237,21 @@ const updateInfoText = () => {
     <li>Loading...</li>
   </div>
 </template>
+
+<style>
+/* Cette partie gère l'état initial de l'élément (opacity: 0) et la transition */
+.fade-enter-active,
+.fade-leave-active {
+  transition: opacity 1s ease-in-out;
+}
+
+/* Cette partie gère l'opacité active pendant l'apparition (entrée) */
+.fade-enter-active {
+  opacity: 0;
+}
+
+/* Cette partie gère l'opacité active pendant la sortie (quand l'élément est supprimé) */
+.fade-leave-active {
+  opacity: 0;
+}
+</style>
