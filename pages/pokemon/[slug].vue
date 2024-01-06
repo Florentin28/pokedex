@@ -54,17 +54,19 @@ pokemon.value = data.value.pokemon;
 const getTypeBackgroundColor = (type) => {
   switch (type) {
     case "Poison":
-      return "#a1a1eb"; // violet
-    case "Eau":
-      return "#B3E0FF"; // Bleu pastel
+      return "#8B008B"; 
+    case "Feu":
+      return "#FF0000"; 
     case "Plante":
-      return "#21ba9c"; 
-    case "Vol":
-      return "#E0E0E0"; // Blanc pastel
+      return "#4CAF50"; 
+    case "Ombre":
+      return "#4A4A4A"; 
     case "Électrique":
-      return "#fdfb73"; // Jaune pastel
+      return "#FFD700"; 
+      case "Ange":
+      return "#87CEEB"; 
     case "Combat":
-      return "#ff2c3d"; // Brun pastel
+      return "#FF2C3D"; 
     default:
       return "#FFFFFF"; // Gris pastel par défaut si le type n'est pas géré
   }
@@ -132,6 +134,8 @@ const beforeEnter = (el) => {
 </script>
 
 <template>
+  <div :class="{ 'text-white': pokemon.typePokemon.type === 'Ombre' }">
+
   <transition
     name="fade"
     mode="out-in"
@@ -171,12 +175,13 @@ const beforeEnter = (el) => {
         </p>
         <p class="text-sm">{{ pokemon.attaque2.description }}</p>
           <!-- Ajoutez le champ "Type" avec l'image du logo du type -->
-<p class="mb-2"><strong>Type :</strong></p>
+    <p class="mb-2 mr-2 text-black font-bold"><strong>Type : </strong>{{ pokemon.typePokemon.type }}</p>
+
 <NuxtImg
   v-if="pokemon.typePokemon && pokemon.typePokemon.logoType"
   :src="pokemon.typePokemon.logoType.url"
   :alt="pokemon.typePokemon.type"
-  class="w-12 h-12 rounded-full cursor-pointer transition-transform transform hover:brightness-125"
+  class="w-12 h-12 rounded-full cursor-pointer transition-transform transform hover:brightness-125 border-2 border-yellow-400 border-orange"
   @click="toggleLargeLogo"
 />
          <p class="mt-4"><strong>Taille :</strong> {{ pokemon.taille }} cm</p>
@@ -239,11 +244,12 @@ const beforeEnter = (el) => {
           PV: {{ pokemon.pv }}
         </div>
         <NuxtImg
-          v-if="pokemon.typePokemon && pokemon.typePokemon.logoType"
-          :src="pokemon.typePokemon.logoType.url"
-          :alt="pokemon.typePokemon.type"
-          class="w-12 h-12 rounded-full"
-        />
+  v-if="pokemon.typePokemon && pokemon.typePokemon.logoType"
+  :src="pokemon.typePokemon.logoType.url"
+  :alt="pokemon.typePokemon.type"
+  class="w-12 h-12 rounded-full cursor-pointer transition-transform transform hover:brightness-125 border-2 border-yellow-400 border-orange"
+  @click="toggleLargeLogo"
+/>
         <p v-else class="ml-2">Non défini</p>
       </div>
     </div>
@@ -305,16 +311,19 @@ const beforeEnter = (el) => {
   @click="toggleLargeLogo"
 >
   <div class="max-w-full max-h-full overflow-hidden">
+    
     <NuxtImg
       class="w-full h-auto object-cover rounded-md cursor-pointer transition-transform transform hover:scale-120 border-4 border-yellow-400"
       :src="pokemon.typePokemon.logoType.url"
       :alt="pokemon.typePokemon.type"
     />
   </div>
+  
 </div>
 
   <div v-else>
     <li>Loading...</li>
+  </div>
   </div>
 </template>
 
