@@ -134,6 +134,7 @@ const beforeEnter = (el) => {
 </script>
 
 <template>
+  <div :class="{ 'text-white': pokemon.typePokemon.type === 'Ombre' }">
 
   <transition
     name="fade"
@@ -147,7 +148,8 @@ const beforeEnter = (el) => {
       class="card-container description absolute top-1/2 transform -translate-y-1/2 w-96 p-6 bg-white border-4 border-yellow-400 rounded-md shadow-md appear-animation fade-enter fade-enter-to"
       :style="{
         left: '50%',
-        'max-height': '100vh',
+        
+        'max-height': '80vh',
         'overflow-y': 'auto',
                 'background-color': backgroundColor, // Ajoutez cette ligne pour définir la couleur de fond
 
@@ -322,6 +324,7 @@ const beforeEnter = (el) => {
 
   <div v-else>
     <li>Loading...</li>
+  </div>
   </div>
 </template>
 
