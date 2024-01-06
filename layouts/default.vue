@@ -3,11 +3,11 @@
     <Title>Pokedex Florentin Muraille</Title>
     <Meta
       name="description"
-      content="Explorez un Pokedex complet et interactif propulsé par IA. Découvrez des Pokémon uniques avec des informations détaillées et des images générées par intelligence artificielle."
+      content="Découvrez des Pokémon uniques avec des informations détaillées et des images générées par intelligence artificielle."
     />
     <Meta
       property="og:description"
-      content="Découverte Interactive de Pokémon | Pokedex Complet Alimenté par IA"
+      content="Pokedex avec image générée par IA"
     />
     <Meta
       property="og:image"

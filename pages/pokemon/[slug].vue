@@ -47,7 +47,9 @@ const pokemon = ref();
 const route = useRoute();
 const { data } = await useAsyncQuery(query, {
   slug: route.params.slug,
+  
 });
+
 console.log(data.value);
 pokemon.value = data.value.pokemon;
 
@@ -131,6 +133,8 @@ const updateInfoText = () => {
 const beforeEnter = (el) => {
   el.classList.add("fade-enter");
 };
+
+
 </script>
 
 <template>
@@ -159,7 +163,7 @@ const beforeEnter = (el) => {
     >
       <div class="text-justify">
         <h3 class="text-lg font-bold mb-2">Description</h3>
-        <p :class="{ tada: showDetails }">{{ infoText }}</p>
+        <p :class="{  showDetails }">{{ infoText }}</p>
           <p class="mb-10"></p>
 
        
@@ -322,9 +326,7 @@ const beforeEnter = (el) => {
   
 </div>
 
-  <div v-else>
-    <li>Loading...</li>
-  </div>
+ 
   </div>
 </template>
 
