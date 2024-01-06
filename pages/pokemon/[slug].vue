@@ -70,7 +70,7 @@ const getTypeBackgroundColor = (type) => {
     case "Combat":
       return "#FF2C3D"; 
     default:
-      return "#FFFFFF"; // Gris pastel par défaut si le type n'est pas géré
+      return "#FFFFFF"; 
   }
 };
 
@@ -178,10 +178,12 @@ const beforeEnter = (el) => {
             {{ pokemon.attaque2.nom }} - {{ pokemon.attaque2.degats }}
           </strong>
         </p>
-        <p class="text-sm">{{ pokemon.attaque2.description }}</p>
+<p class="text-sm mb-4">{{ pokemon.attaque2.description }} </p>
           <!-- Ajoutez le champ "Type" avec l'image du logo du type -->
-    <p class="mb-2 mr-2 text-black font-bold"><strong>Type : </strong>{{ pokemon.typePokemon.type }}</p>
-
+<p :class="{ 'text-white': pokemon.value?.typePokemon?.type === 'Ombre' }" class="mb-2">
+  
+  <strong>Type : </strong>{{ pokemon.typePokemon.type }}
+</p>
 <NuxtImg
   v-if="pokemon.typePokemon && pokemon.typePokemon.logoType"
   :src="pokemon.typePokemon.logoType.url"
