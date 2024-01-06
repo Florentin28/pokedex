@@ -252,7 +252,7 @@ const beforeEnter = (el) => {
   v-if="pokemon.typePokemon && pokemon.typePokemon.logoType"
   :src="pokemon.typePokemon.logoType.url"
   :alt="pokemon.typePokemon.type"
-  class="w-12 h-12 rounded-full cursor-pointer transition-transform transform hover:brightness-125 border- border-yellow-400 border-orange"
+  class="w-12 h-12 rounded-full cursor-pointer transition-transform transform hover:brightness-125 border-2 border-yellow-400 border-orange"
   @click="toggleLargeLogo"
 />
         <p v-else class="ml-2">Non défini</p>
