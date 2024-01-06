@@ -62,7 +62,7 @@ const getTypeBackgroundColor = (type) => {
     case "Plante":
       return "#4CAF50"; 
     case "Ombre":
-      return "#4A4A4A"; 
+      return "#000000"; 
     case "Électrique":
       return "#FFD700"; 
       case "Ange":
